@@ -3,9 +3,9 @@
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkWindow" id="window_main">
-    <property name="width_request">640</property>
-    <property name="height_request">480</property>
     <property name="title" translatable="yes">S3C 6410 SD/SDHC Flasher</property>
+    <property name="default_width">800</property>
+    <property name="default_height">600</property>
     <signal name="delete_event" handler="on_window_main_delete_event"/>
     <child>
       <object class="GtkVBox" id="vbox1">
@@ -29,7 +29,14 @@
                 <child>
                   <object class="GtkComboBox" id="combobox_card">
                     <property name="visible">True</property>
-                    <property name="model">liststore1</property>
+                    <property name="model">liststore2</property>
+                    <signal name="changed" handler="on_combobox_card_changed"/>
+                    <child>
+                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -42,6 +49,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_ckb_sdhc_toggled"/>
                   </object>
                   <packing>
                     <property name="position">2</property>
@@ -121,34 +129,73 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox2">
+              <object class="GtkTable" id="table3">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
+                <property name="n_rows">3</property>
+                <property name="n_columns">2</property>
                 <child>
-                  <object class="GtkLabel" id="label5">
+                  <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">BL2 Backward:</property>
                   </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label5">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">ENV Backward:</property>
+                  </object>
                   <packing>
-                    <property name="position">0</property>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="label6">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">ENV Backward:</property>
+                    <property name="label" translatable="yes">Background 
+vinaga Backward:
+</property>
                   </object>
                   <packing>
-                    <property name="position">1</property>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label7">
+                  <object class="GtkEntry" id="entry1">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">Background vinaga backward:</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">&#x25CF;</property>
                   </object>
                   <packing>
-                    <property name="position">2</property>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
                   </packing>
                 </child>
               </object>
@@ -254,6 +301,7 @@
                 <child>
                   <object class="GtkFileChooserButton" id="filechooserbutton1">
                     <property name="visible">True</property>
+                    <signal name="file_set" handler="on_filechooserbutton1_file_set"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -263,6 +311,7 @@
                 <child>
                   <object class="GtkFileChooserButton" id="filechooserbutton2">
                     <property name="visible">True</property>
+                    <signal name="file_set" handler="on_filechooserbutton2_file_set"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -274,6 +323,7 @@
                 <child>
                   <object class="GtkFileChooserButton" id="filechooserbutton3">
                     <property name="visible">True</property>
+                    <signal name="file_set" handler="on_filechooserbutton3_file_set"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -369,6 +419,7 @@
               <object class="GtkButton" id="button_flash">
                 <property name="label" translatable="yes">Flash</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_button_flash_clicked"/>
@@ -381,6 +432,7 @@
               <object class="GtkButton" id="button_erase">
                 <property name="label" translatable="yes">Erase</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_button_erase_clicked"/>
@@ -407,5 +459,11 @@
       </object>
     </child>
   </object>
-  <object class="GtkListStore" id="liststore1"/>
+  <object class="GtkListStore" id="liststore2">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+    <signal name="row_changed" handler="on_liststore2_row_changed"/>
+  </object>
 </interface>
