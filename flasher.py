@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''S3C 6410 Flash main UI code
 '''
+S3C 6410 Flash main UI code
+Author: Amankwah <amankwah7@gmail.com>
+License: GPLv2
+'''
+
 import pygtk
 pygtk.require('2.0')
 import gtk, gobject
