@@ -60,17 +60,17 @@ class mw:
             os.system('dd if="%s" of="%s" bs=512 seek=%i'
                       %(self.filechooserbutton2.get_filename(),
                         cardname,
-                        self.blocks - int(self.entry1.get_text(), 0) - 1024 * is_sdhc))
+                        self.blocks - int(self.entry1.get_text(), 0) / 512 - 1024 * is_sdhc))
         if self.checkbutton4.get_active():
             os.system('dd if="%s" of="%s" bs=512 seek=%i'
                       %(self.filechooserbutton3.get_filename(),
                         cardname,
-                        self.blocks - int(self.entry2.get_text(), 0) - 1024 * is_sdhc))
+                        self.blocks - int(self.entry2.get_text(), 0) / 512 - 1024 * is_sdhc))
         if self.checkbutton_bksz.get_active():
             os.system('dd if="%s" of="%s" bs=512 seek=%i'
                       %(self.filechooserbutton4.get_filename(),
                         cardname,
-                        self.blocks - int(self.entry3.get_text(), 0) - 1024 * is_sdhc))
+                        self.blocks - int(self.entry3.get_text(), 0) / 512 - 1024 * is_sdhc))
 
     def on_button_erase_clicked(self, button, data=None):
         print button, data
