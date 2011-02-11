@@ -86,6 +86,18 @@ class mw:
             self.entry3.set_text(get_macro_value_in_c_header('MMC_BACKGROUND_POS_BACKWARD', li))
         # FIXME: add a warning box when the file is not exist.
 
+        fpath	= "%s/u-boot.bin" %(self.ubsrc_path)
+        if os.path.isfile(fpath):
+            self.filechooserbutton2.select_filename(fpath)
+            self.checkbutton3.set_label("Size:%u" %(os.path.getsize(fpath)))
+            self.checkbutton3.set_active(True)
+
+        fpath	= "%s/nand_spl/u-boot-spl-16k.bin" %(self.ubsrc_path)
+        if os.path.isfile(fpath):
+            self.filechooserbutton1.select_filename(fpath)
+            self.checkbutton2.set_label("Size:%u" %(os.path.getsize(fpath)))
+            self.checkbutton2.set_active(True)
+
     def on_filechooserbutton_header_file_set(self, fc_button, data=None):
         self.header_filename	= fc_button.get_filename()
         # self.fc_button_ubsrc.select_filename(os.path.dirname(self.header_filename))
